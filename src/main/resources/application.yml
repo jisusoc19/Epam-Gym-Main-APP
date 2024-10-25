@@ -1,0 +1,203 @@
+#centro de control de perfiles 
+
+server:
+ port: 8090
+spring:
+ application:
+    name: servicio-usuarios
+ profiles:
+   active: dev
+---
+#configuracion developer
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+jwtKeys:
+   privateKeyPath: jwtKeys/private.key.pem
+   publicKeyPath: jwtKeys/public.key.pem
+
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+ 
+info:
+  env:
+    enabled: true  
+logging:
+  file:
+    name: logback.xml
+    path: src/main/resources/logback.xml
+    
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+  show-actuator: true
+#EurekaConfig
+eureka:
+  instance:
+    preferIPAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+#circuit Breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      taskMicroCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+
+---
+#Local configuracion
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      
+logging:
+  file:
+    name: logback.xml
+    path: src/main/resources/logback.xml
+    
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+  show-actuator: true
+---
+
+#stg configuracion
+
+spring:
+  config:
+    activate:
+      on-profile: stg
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      
+logging:
+  file:
+    name: logback.xml
+    path: src/main/resources/logback.xml
+    
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+  show-actuator: true
+---
+
+#prod configuracion
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      
+logging:
+  file:
+    name: logback.xml
+    path: src/main/resources/logback.xml
+    
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+  show-actuator: true
+
+
+
+
+    
+
