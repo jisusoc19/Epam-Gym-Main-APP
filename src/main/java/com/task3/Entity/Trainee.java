@@ -46,6 +46,7 @@ public class Trainee implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	private User userid;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "trainee_id")
 	Set<Training> traininglist;
@@ -67,10 +68,6 @@ public class Trainee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@PostConstruct
-	public void init() {
-		log.info("Trainee Entity Creado");
-	}
 
 
 

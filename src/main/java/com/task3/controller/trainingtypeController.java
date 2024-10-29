@@ -16,13 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/trainingtype")
+@RequestMapping("/api")
 public class trainingtypeController {
-	@Autowired
-	private training_typeService trainingtypeservice;
-	
-	
-	@GetMapping("/list")
+
+	private final training_typeService trainingtypeservice;
+
+	public trainingtypeController(training_typeService trainingtypeservice) {
+		this.trainingtypeservice = trainingtypeservice;
+	}
+
+	@GetMapping("/training_type")
 	public List<Training_Type> findAll(){
 		log.info("iniciando el controlador trainingtypecontroller");
 		return trainingtypeservice.findALL();

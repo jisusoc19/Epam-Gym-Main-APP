@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class TaskMicroimpl {
-    @Autowired
-    private ITaskMicro taskMicroClient;
+
+    private final ITaskMicro taskMicroClient;
+
+    public TaskMicroimpl(ITaskMicro taskMicroClient) {
+        this.taskMicroClient = taskMicroClient;
+    }
 
     @CircuitBreaker(name = "taskMicroCircuitBreaker", fallbackMethod = "fallbackAddTrainer")
     public void addTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro) {

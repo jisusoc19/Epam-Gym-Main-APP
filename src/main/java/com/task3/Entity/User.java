@@ -7,17 +7,10 @@ import java.util.List;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,17 +44,14 @@ public class User implements Serializable {
 
 	@Column(nullable = false,name="is_Active")
 	private Boolean isActive = true;
-
+	@Transient
 	@OneToOne(mappedBy ="userid")
 	Trainee trainee;
-
+	@Transient
 	@OneToOne(mappedBy ="userid")
 	Trainer trainer;
 
 
 	private static final long serialVersionUID = 1L;
-	public void init() {
-		log.info("User Entity Creado");
-	}
 
 }

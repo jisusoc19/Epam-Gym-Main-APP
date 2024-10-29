@@ -27,9 +27,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 	
-	@Autowired
-	private IJwtService jwtservice;
-	
+
+	private final IJwtService jwtservice;
+
+	public SecurityConfig(IJwtService jwtservice) {
+		this.jwtservice = jwtservice;
+	}
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return  http
@@ -39,10 +43,10 @@ public class SecurityConfig {
 				 .authorizeHttpRequests(autRequest ->
 				 	autRequest
 				 	 .requestMatchers("/auth/**").permitAll()
-				 	 .requestMatchers("/doc/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/eureka/**" ,"/**","/webjars/**", "/swagger-resources/**").permitAll()
+				 	 .requestMatchers("/doc/**", "/swagger-ui/**", "/v3/api-docs/**","/swagger-ui.html","/eureka/**" ,"/**","/webjars/**", "/swagger-resources/**").permitAll()
 				 	 .requestMatchers("/h2/**","/h2-console").permitAll()
-				 	 .requestMatchers(HttpMethod.POST,"/apitrainer/**").permitAll()
-				 	 .requestMatchers(HttpMethod.POST,"/apitrainee/**").permitAll()
+				 	 .requestMatchers(HttpMethod.POST,"/api/auth/register").permitAll()
+				 	 .requestMatchers(HttpMethod.POST,"/api/auth/loging").permitAll()
 				 	 .anyRequest().authenticated()
 					 
 				)

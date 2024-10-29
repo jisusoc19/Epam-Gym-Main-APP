@@ -27,11 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Transactional
 public class iTraineServiceImpl implements iTraineeService {
 	
 
-	@Autowired
-	private iTraineedao traineedaoJpa;
+
+	private final iTraineedao traineedaoJpa;
+
+	public iTraineServiceImpl(iTraineedao traineedaoJpa) {
+		this.traineedaoJpa = traineedaoJpa;
+	}
 
 	@Transactional(readOnly = true)
 	@Override
@@ -56,7 +61,6 @@ public class iTraineServiceImpl implements iTraineeService {
 		}
 	}
 
-	@Transactional
 	@Override
 	public Trainee save(Trainee trainee) {
 		if(trainee==null ) {
@@ -70,7 +74,7 @@ public class iTraineServiceImpl implements iTraineeService {
 		
 	}
 
-	@Transactional(readOnly = false)
+
 	@Override
 	public void delete(Long id) {
 		if(traineedaoJpa.findById(id) == null || traineedaoJpa.findById(id).isEmpty()){
@@ -83,12 +87,8 @@ public class iTraineServiceImpl implements iTraineeService {
 		}
 	}
 
-	@PostConstruct
-	public void init() {
-		log.info("iTraineServiceImpl ha sido inicializado");
-	}
 
-	@Transactional
+
 	@Override
 	public Trainee update(Trainee trainee, Long id) {
 		Trainee Aactual = traineedaoJpa.findById(id).orElse(null);
@@ -109,7 +109,6 @@ public class iTraineServiceImpl implements iTraineeService {
 	}
 
 
-	@Transactional
 	@Override
 	public Trainee findbyusername(String username) {
 		Trainee trainee =traineedaoJpa.findByUsername(username).orElse(null);
@@ -123,7 +122,6 @@ public class iTraineServiceImpl implements iTraineeService {
 		}
 	}
 
-	@Transactional
 	@Override
 	public Boolean loggin(String username, String Password) {
 		Trainee traineeE = traineedaoJpa.findByUsername(username).orElse(null);
@@ -140,8 +138,7 @@ public class iTraineServiceImpl implements iTraineeService {
 	}
 
 
-	
-	@Transactional
+
 	@Override
 	public Trainee updateStatususername(String username, Boolean status) {
 		Trainee traineeA = traineedaoJpa.findByUsername(username).orElse(null);

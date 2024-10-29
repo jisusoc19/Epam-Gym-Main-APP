@@ -23,8 +23,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	
-	@Autowired
-	IJwtService jwtservice;
+
+	private final IJwtService jwtservice;
 	
 	
 	

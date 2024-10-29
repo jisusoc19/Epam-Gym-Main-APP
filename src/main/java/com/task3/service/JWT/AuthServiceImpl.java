@@ -21,12 +21,16 @@ import com.task3.Repository.iUserRepository;
 @Service
 public class AuthServiceImpl implements IAuthService {
 	
+
+	private final iUserRepository userRepo;
+
 	@Autowired
-	private iUserRepository userRepo;
-	
-	
-	@Autowired
-	private IJwtService ijwtservice;
+	public AuthServiceImpl(iUserRepository userRepo, IJwtService ijwtservice) {
+		this.userRepo = userRepo;
+		this.ijwtservice = ijwtservice;
+	}
+
+	private final IJwtService ijwtservice;
 	
 	@Override
 	public HashMap<String, String> loggin(logginDto login) throws Exception{

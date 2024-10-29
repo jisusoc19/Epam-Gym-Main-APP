@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @SpringBootApplication
 @EnableFeignClients
+@ComponentScan(basePackages = {"com.task3", "MQConfig"})
 public class Task3Application {
 
 
@@ -25,10 +27,6 @@ public class Task3Application {
 		SpringApplication.run(Task3Application.class, args);
 	}
 
-    @PostConstruct
-    public void init() {
-    	log.info("main ha sido inicializado");
-    }
 
 
 }

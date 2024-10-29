@@ -1,16 +1,9 @@
 package com.task3.service.training;
 
-import java.util.Map;
-
 import com.task3.Dto.TrainingDtoMicroServiceTaskMicro;
-import com.task3.Entity.Trainee;
-import com.task3.Entity.Trainer;
 import com.task3.ITaskMicro;
-import com.task3.Repository.iTrainerdao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.task3.service.trainer.iTrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +14,22 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
+@Transactional
 public class iTrainingServiceImpl implements iTrainingService {
 
-	@Autowired
-	private ITaskMicro taskMicro;
-	@Autowired
-	private iTrainerdao trainerdao;
-	@Autowired
-	private iTrainingdao itrainindaoJPA;
-	
+
+	private final ITaskMicro taskMicro;
+
+	private final iTrainerService trainerdao;
+
+	private final iTrainingdao itrainindaoJPA;
+
+	public iTrainingServiceImpl(ITaskMicro taskMicro, iTrainerService trainerdao, iTrainingdao itrainindaoJPA) {
+		this.taskMicro = taskMicro;
+		this.trainerdao = trainerdao;
+		this.itrainindaoJPA = itrainindaoJPA;
+	}
+
 	@Transactional(readOnly = true)
 	@Override
 	public Training findbyid(Long id) {
@@ -45,32 +45,35 @@ public class iTrainingServiceImpl implements iTrainingService {
 		}
 		
 	}
-	@Transactional(readOnly = false)
+
 	@Override
-	public Training save(Training training) {
-		if(itrainindaoJPA.findByUsername(training.getTrainer_id().getUserid().getUsername()).isEmpty()) {
-			itrainindaoJPA.save(training);
-			training.getTrainer_id();
-			TrainingDtoMicroServiceTaskMicro trainingDtoMicro = new TrainingDtoMicroServiceTaskMicro();
-			trainingDtoMicro.setFirstName(training.getTrainer_id().getUserid().getFirstName());
-			trainingDtoMicro.setLastName(training.getTrainer_id().getUserid().getLastName());
-			trainingDtoMicro.setUsername(training.getTrainer_id().getUserid().getUsername());
-			trainingDtoMicro.setActive(training.getTrainer_id().getUserid().getIsActive());
-			trainingDtoMicro.setTrainingDate(training.getTraining_date());
-			trainingDtoMicro.setTrainingDuration(training.getTraining_duration());
-			trainingDtoMicro.setActionType("ADD");
-			log.info("Training guardado con exito");
-			try {
-				taskMicro.addTrainer(trainingDtoMicro);
-				log.info("Llamada a microservicio secundario exitosa");
-			} catch (Exception e) {
-				log.error("Error al llamar al microservicio secundario", e);}
-		}else {
-			log.error("Error al guardar el Training con el id :" + training.getId());
-			return null;
-		}
-		return training;
-	}
+	public TrainingDtoMicroServiceTaskMicro save(Training training) {
+        Training traininSfe;
+		TrainingDtoMicroServiceTaskMicro trainingDtoMicro = new TrainingDtoMicroServiceTaskMicro();
+        if (training != null) {
+            traininSfe = itrainindaoJPA.save(training);
+            training.getTrainer_id();
+
+            trainingDtoMicro.setFirstName(trainerdao.findById(training.getTrainer_id().getId()).getUserid().getFirstName());
+            trainingDtoMicro.setLastName(trainerdao.findById(training.getTrainer_id().getId()).getUserid().getLastName());
+            trainingDtoMicro.setUsername(trainerdao.findById(training.getTrainer_id().getId()).getUserid().getUsername());
+            trainingDtoMicro.setActive(trainerdao.findById(training.getTrainer_id().getId()).getUserid().getIsActive());
+            trainingDtoMicro.setTrainingDate(training.getTraining_date());
+            trainingDtoMicro.setTrainingDuration(training.getTraining_duration());
+            trainingDtoMicro.setActionType("ADD");
+            log.info("Training guardado con exito");
+            try {
+                taskMicro.addTrainer(trainingDtoMicro);
+                log.info("Llamada a microservicio secundario exitosa");
+            } catch (Exception e) {
+                log.error("Error al llamar al microservicio secundario", e);
+            }
+        } else {
+            log.error("Error al guardar el Training con el id :" + training.getId());
+            return null;
+        }
+        return trainingDtoMicro;
+    }
 	@Override
 	public void Delete(String username, String actionType) {
 		Training training = itrainindaoJPA.findByUsername(username).orElse(null);
@@ -86,9 +89,6 @@ public class iTrainingServiceImpl implements iTrainingService {
 		training.getTrainee_id().getUserid().setIsActive(false);
 		log.info("Trainer borrado correctamente");
 	}
-	@PostConstruct
-	public void init() {
-		log.info("Iniciando el iTrainingServiceimpl");
-	}
+
 
 }

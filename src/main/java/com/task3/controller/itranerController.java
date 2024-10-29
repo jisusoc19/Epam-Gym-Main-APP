@@ -27,15 +27,18 @@ import com.task3.service.trainer.iTrainerService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 @RestController
-@RequestMapping("/apitrainer")
+@RequestMapping("/api")
 @Slf4j
 public class itranerController {
 	
 	
-	@Autowired
-	private iTrainerService itrainerservice;
-	
-	
+
+	private final iTrainerService itrainerservice;
+
+	public itranerController(iTrainerService itrainerservice) {
+		this.itrainerservice = itrainerservice;
+	}
+
 	@GetMapping("/trainer/{id}")
 	public Trainer findbyid(@PathVariable Long id){
 		log.info("iniciando itrainerControler findById");
@@ -68,11 +71,7 @@ public class itranerController {
 	public Trainer update(@RequestBody Trainer trainer ,@PathVariable Long id) {
 		return itrainerservice.update(trainer, id);
 	}
-	
-	@PostConstruct
-	public void init() {
-		log.info("iniciando itrainerController");
-	}
+
 
 	
 	@PatchMapping("/trainer/active")

@@ -1,4 +1,4 @@
-INSERT INTO usergym (first_Name, last_Name, username, password, is_Active) VALUES ('John', 'Doe', 'john_doe', 'password123', TRUE);
+INSERT INTO usergym (first_Name, last_Name, username, password, is_Active) VALUES ('John', 'Doe', 'john_doe1', 'password123', TRUE);
 INSERT INTO usergym (first_Name, last_Name, username, password, is_Active) VALUES ('Jane', 'Doe', 'jane_doe', 'password123', TRUE);
 
 INSERT INTO Trainee (date_Birth, addres, id_usuario) VALUES ('1990-01-01', '1234 Elm Street', 1);

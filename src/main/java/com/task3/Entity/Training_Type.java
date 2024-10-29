@@ -38,8 +38,6 @@ public class Training_Type implements Serializable {
 	Set<Training> traininglist;
 	
 	private static final long serialVersionUID = 1L;
-	public void init() {
-		log.info("Training_type Entity Creado");
-	}
+
 
 }

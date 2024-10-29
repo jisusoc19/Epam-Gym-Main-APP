@@ -24,13 +24,17 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
+@Transactional
 public class iTrainerServiceImpl implements iTrainerService {
+
+
+	public iTrainerServiceImpl(iTrainerdao itrainerdaoJPA) {
+		this.itrainerdaoJPA = itrainerdaoJPA;
+	}
+
+	public final iTrainerdao itrainerdaoJPA;
 	
-	
-	@Autowired
-	public iTrainerdao itrainerdaoJPA;
-	
-	@Transactional(readOnly = false)
+
 	@Override
 	public Trainer save(Trainer trainer) {
 		if(trainer==null || trainer.getUserid().getIsActive()==null) {
@@ -55,7 +59,7 @@ public class iTrainerServiceImpl implements iTrainerService {
 		}
 		
 	}
-	@Transactional(readOnly = false)
+
 	@Override
 	public Trainer update(Trainer trainer, Long id) {
 		Trainer Aactual = itrainerdaoJPA.findById(id).orElse(null);
@@ -75,10 +79,7 @@ public class iTrainerServiceImpl implements iTrainerService {
 	
 	    
 	
-	@PostConstruct
-	public void init() {
-		log.info("Iniciando el iTrainerServiceImpl");
-	}
+
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -94,7 +95,7 @@ public class iTrainerServiceImpl implements iTrainerService {
 
 
 
-	@Transactional
+
 	@Override
 	public Trainer findbyusername(String username) {
 		Trainer trainer =itrainerdaoJPA.findByUsername(username).orElse(null);
@@ -109,7 +110,6 @@ public class iTrainerServiceImpl implements iTrainerService {
 
 	}
 
-	@Transactional
 	@Override
 	public Boolean loggin(String username, String Password) {
 		Trainer traineeE = itrainerdaoJPA.findByUsername(username).orElse(null);
@@ -125,7 +125,7 @@ public class iTrainerServiceImpl implements iTrainerService {
 
 	}
 
-	@Transactional
+
 	@Override
 	public Trainer activeTranierTrainee(String username, Boolean status) {
 

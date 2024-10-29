@@ -40,12 +40,12 @@ public class Training  implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="trainee_id")
 	private Trainee trainee_id;
 
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="trainer_id")
 	private Trainer trainer_id;
@@ -73,9 +73,7 @@ public class Training  implements Serializable{
 	}
 	private static final long serialVersionUID = 1L;
 	
-	public void init() {
-		log.info("Training Entity Creado");
-	}
+
 
 
 

@@ -16,13 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/apitrainee")
+@RequestMapping("/api")
 public class traineeController {
 	
-	@Autowired
-	private iTraineeService traineeservice;
 
-	
+	private final iTraineeService traineeservice;
+
+	public traineeController(iTraineeService traineeservice) {
+		this.traineeservice = traineeservice;
+	}
 
 	@GetMapping("/trainee")
 	public List<Trainee> index(){
@@ -54,10 +56,7 @@ public class traineeController {
 		return new ResponseEntity<>("Trainee eliminado con exito",HttpStatus.OK);
 	}
 	
-	@PostConstruct
-	public void init() {
-		log.info("traineeControler iniciado");
-	}
+
 	@PutMapping("/trainee/{id}")
 	public Trainee update(@RequestBody Trainee trainee , @PathVariable Long id) {
 		log.info("traineeControler Update iniciado");

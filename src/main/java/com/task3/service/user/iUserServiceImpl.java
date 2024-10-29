@@ -17,10 +17,15 @@ import java.util.Random;
 
 @Service
 @Slf4j
+@Transactional
 public class iUserServiceImpl implements iUserService {
 
-	@Autowired
-	private iUserRepository userRepo;
+
+	private final iUserRepository userRepo;
+
+	public iUserServiceImpl(iUserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
 
 	@Override
 	public String generateUniqueUsername(String firstName, String lastName) {
@@ -48,7 +53,7 @@ public class iUserServiceImpl implements iUserService {
         log.info("user generado con contraseña");
         return sb.toString();
     }
-	@Transactional
+
 	@Override
 	public User activeUser(String username, Boolean status) {
 
@@ -70,7 +75,7 @@ public class iUserServiceImpl implements iUserService {
 
 
 	
-
+	@Transactional(readOnly = true)
 	@Override
 	public User findbyusername(String username) {
 		// TODO Auto-generated method stub

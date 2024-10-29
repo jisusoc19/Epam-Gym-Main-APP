@@ -27,6 +27,7 @@ public class Trainer implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario")
 	private User userid;
@@ -44,9 +45,6 @@ public class Trainer implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	public void init() {
-		log.info("Trainer Entity Creado");
-	}
 	public Trainer (User userid) {
 		this.userid=userid;
 		

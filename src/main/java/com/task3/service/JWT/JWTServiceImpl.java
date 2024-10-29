@@ -1,10 +1,6 @@
 package com.task3.service.JWT;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -18,9 +14,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.JOSEException;
@@ -37,15 +31,18 @@ import com.task3.Repository.iUserRepository;
 
 @Service
 public class JWTServiceImpl implements IJwtService {
-	
-	@Value("classpath:jwtKeys/private_key.pem")
-	private Resource privatekeyResource;
-	
-	@Value("classpath:jwtKeys/public_key.pem")
-	private Resource publickeyResource;
-	
-	@Autowired
-	private iUserRepository userRepo;
+
+	@Value("${jwtKeys.privateKeyPath}")
+	private String privatekeyResource;
+
+	@Value("${jwtKeys.publicKeyPath}")
+	private String publickeyResource;
+
+	public JWTServiceImpl(iUserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+
+	private final iUserRepository userRepo;
 	@Override
 	public String generarteJwt(Long id) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, JOSEException {
 		PrivateKey privatekey =loadprivatekey(privatekeyResource);
@@ -65,7 +62,7 @@ public class JWTServiceImpl implements IJwtService {
 	@Override
 	public JWTClaimsSet parseJWT(String jwt) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, ParseException, JOSEException {
 		PublicKey publickey = loadpublicKey(publickeyResource);
-		
+
 		SignedJWT signedjwt = SignedJWT.parse(jwt);
 		JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey) publickey);
 		if (!signedjwt.verify(verifier)) {
@@ -74,32 +71,29 @@ public class JWTServiceImpl implements IJwtService {
 		JWTClaimsSet claimsSet = signedjwt.getJWTClaimsSet();
 		if(claimsSet.getExpirationTime().before(new Date())) {
 			throw new JOSEException("EXPIRED TOKEN");
-			
+
 		}
 		return claimsSet;
 	}
-	
-	private PrivateKey loadprivatekey(Resource resource) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-		byte[] keybytes = Files.readAllBytes(Paths.get(resource.getURI()));
-		String priviteKeyPem = new String(keybytes,StandardCharsets.UTF_8)
-					.replace("-----BEGIN PRIVATE KEY-----", "")
-					.replace("-----END PRIVATE KEY-----", "")
-					.replaceAll("\\s", "");
-		
-		byte[] decodekey =Base64.getDecoder().decode(priviteKeyPem);
-		
-		KeyFactory keyfactory = KeyFactory.getInstance("RSA");
-		return keyfactory.generatePrivate(new PKCS8EncodedKeySpec(decodekey));
+
+	private PrivateKey loadprivatekey(String privatekeyResource) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		privatekeyResource = this.privatekeyResource
+				.replace("-----BEGIN PRIVATE KEY-----", "")
+				.replace("-----END PRIVATE KEY-----", "")
+				.replaceAll("\\s+", "");
+
+		byte[] decoded = Base64.getDecoder().decode(privatekeyResource);
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(decoded));
 	}
-	private PublicKey loadpublicKey(Resource resource) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-		byte[] keybytes = Files.readAllBytes(Paths.get(resource.getURI()));
-		String publicKeyPem = new String(keybytes,StandardCharsets.UTF_8)
-					.replace("-----BEGIN PUBLIC KEY-----", "")
-					.replace("-----END PUBLIC KEY-----", "")
-					.replaceAll("\\s", "");
-		byte[] decodekey =Base64.getDecoder().decode(publicKeyPem);
-		KeyFactory keyfactory = KeyFactory.getInstance("RSA");
-		
-		return keyfactory.generatePublic(new X509EncodedKeySpec(decodekey));
+	private PublicKey loadpublicKey(String publickeyResource) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		publickeyResource = this.publickeyResource
+				.replace("-----BEGIN PUBLIC KEY-----", "")
+				.replace("-----END PUBLIC KEY-----", "")
+				.replaceAll("\\s+", "");
+
+		byte[] decoded = Base64.getDecoder().decode(publickeyResource);
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		return keyFactory.generatePublic(new X509EncodedKeySpec(decoded));
 	}
 }

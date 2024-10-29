@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthController {
+
+	private final IAuthService authservice;
 	@Autowired
-	private IAuthService authservice;
-	
+	public AuthController(IAuthService authservice) {
+		this.authservice = authservice;
+	}
+
 	@PostMapping("/register")
 	public ResponseEntity<ResponseDto> registrar(@RequestBody User user) throws Exception {
 		return new ResponseEntity<ResponseDto>(authservice.register(user),HttpStatus.CREATED);
