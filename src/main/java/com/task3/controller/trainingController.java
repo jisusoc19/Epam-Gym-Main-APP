@@ -3,6 +3,7 @@ package com.task3.controller;
 import MQConfig.MQServiceMessage;
 import com.task3.Dto.TrainingDtoMicroServiceTaskMicro;
 import com.task3.Entity.Training_Type;
+import jakarta.jms.JMSSecurityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,12 @@ public class trainingController {
 		return itrainingservice.findbyid(id);
 	}
 	@PostMapping("/training")
-	public TrainingDtoMicroServiceTaskMicro save(@RequestBody Training training){
+	public TrainingDtoMicroServiceTaskMicro save(@RequestBody Training training) throws JMSSecurityException {
 		message.sendMessage("Training creado");
 		return itrainingservice.save(training);
 	}
 	@PutMapping("/training/{username}/{action}")
-	public void delete(@PathVariable String username, @PathVariable  String action){
+	public void delete(@PathVariable String username, @PathVariable  String action) throws JMSSecurityException {
 		message.sendMessageDelete("Trainin borrado");
 		itrainingservice.UpdateActionType(username, action);
 	}
