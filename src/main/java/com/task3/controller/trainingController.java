@@ -33,13 +33,13 @@ public class trainingController {
 	}
 	@PostMapping("/training")
 	public TrainingDtoMicroServiceTaskMicro save(@RequestBody Training training){
-		message.sendMessage("Training Creado");
+		message.sendMessage("Training creado");
 		return itrainingservice.save(training);
 	}
-	@DeleteMapping("/training/{username}/{action}")
-	public void delete(@PathVariable String username, String action){
-		message.sendMessage("Training Creado");
-		itrainingservice.Delete(username, action);
+	@PutMapping("/training/{username}/{action}")
+	public void delete(@PathVariable String username, @PathVariable  String action){
+		message.sendMessageDelete("Trainin borrado");
+		itrainingservice.UpdateActionType(username, action);
 	}
 
 

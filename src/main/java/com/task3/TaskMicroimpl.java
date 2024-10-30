@@ -27,11 +27,11 @@ public class TaskMicroimpl {
     }
 
     @CircuitBreaker(name = "taskMicroCircuitBreaker", fallbackMethod = "fallbackDeleteTrainer")
-    public void deleteTrainer(Training training) {
-        taskMicroClient.deleteTrainer(training);
+    public void deleteTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro) {
+        taskMicroClient.deleteTrainer(trainingDtoMicro);
     }
 
-    public void fallbackDeleteTrainer(Training training, Throwable t) {
+    public void fallbackDeleteTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro, Throwable t) {
         log.error("Fallback for deleteTrainer due to: " + t.getMessage());
     }
 }

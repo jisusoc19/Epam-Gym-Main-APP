@@ -11,5 +11,5 @@ import com.task3.Entity.Training;
 public interface iTrainingService{
 	public Training findbyid(Long id);
 	public TrainingDtoMicroServiceTaskMicro save(Training training);
-	public void Delete(String username, String actionType);
+	public TrainingDtoMicroServiceTaskMicro UpdateActionType(String username, String actionType);
 }
