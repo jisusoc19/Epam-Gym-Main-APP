@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient("TaskMicro")
 public interface ITaskMicro {
-    @PostMapping("/trainer")
+    @PostMapping("/api/trainer")
     void addTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro);
 
-    @PutMapping("/trainer")
+    @PutMapping("/api/trainer")
     void deleteTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro);
 
 }
