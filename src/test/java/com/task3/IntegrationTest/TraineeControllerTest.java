@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.internal.creation.bytebuddy.MockAccess;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +30,7 @@ import com.task3.service.JWT.IJwtService;
 import com.task3.service.trainee.iTraineeService;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 public class TraineeControllerTest {
 	
 	@Autowired
@@ -40,59 +43,66 @@ public class TraineeControllerTest {
 	IJwtService ijwtservice;
 	@Autowired
 	iTraineeService traineeser;
-	
+
+	public TraineeControllerTest(MockMvc mockMvc, ObjectMapper objectMa, IJwtService ijwtservice, iTraineeService traineeser) {
+		this.mockMvc = mockMvc;
+		this.objectMa = objectMa;
+		this.ijwtservice = ijwtservice;
+		this.traineeser = traineeser;
+	}
+
 	@Test
 	public void TestStatus401() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/apitrainee/trainee")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isUnauthorized());
-		
+
 	}
 	@Test
 	public void TestPost()  throws Exception {
-		Trainee trainee1 = new Trainee(null, null, "asdasd@gmail.com", null, null, "jesus", "david", null, null, true);
+		Trainee trainee1 = new Trainee();
 		String map = objectMa.writeValueAsString(trainee1);
-		
+
 		mockMvc.perform(MockMvcRequestBuilders.post("/apitrainee/trainee")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(map))
 		.andExpect(status().isOk());
 
 	}
-	@Test 
-	void TestGetId() throws Exception {
+	@Test
+	public void TestGetId() throws Exception {
 		Trainee trainee = new Trainee(1l, null, "asdasd@gmail.com", null, null, "jesus", "david", null, null, true);
-    	
+
     	ijwtservice.generarteJwt(trainee.getId());
-    	
+
         mockMvc.perform(get("/apitrainee/trainee/1")
                 .header("Authorization","Bearer " + ijwtservice.generarteJwt(trainee.getId())))
             .andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void deleteTest() throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, JOSEException, Exception {
 		Trainee trainee = new Trainee(1l, null, "asdasd@gmail.com", null, null, "jesus", "david", null, null, true);
-    	
+
     	ijwtservice.generarteJwt(trainee.getId());
-    	
+
         mockMvc.perform(delete("/apitrainee/trainee/1")
                 .header("Authorization","Bearer " + ijwtservice.generarteJwt(trainee.getId())))
             .andExpect(status().isOk());
 	}
-	@Test 
-	void TestGetall() throws Exception {
+	@Test
+	public void TestGetall() throws Exception {
 		Trainee trainee = new Trainee(1l, null, "asdasd@gmail.com", null, null, "jesus", "david", null, null, true);
-    	
+
     	ijwtservice.generarteJwt(trainee.getId());
-    	
+
         mockMvc.perform(get("/apitrainee/trainee")
                 .header("Authorization","Bearer " + ijwtservice.generarteJwt(trainee.getId())))
             .andExpect(status().isOk());
 	}
-	
+
 	@Test
-	void TestUpdate() throws Exception {
+	public void TestUpdate() throws Exception {
 	    Trainee trainee = new Trainee(1l, null, "asdasd@gmail.com", null, null, "jesus", "david", null, null, true);
 
 	    String jwt = ijwtservice.generarteJwt(trainee.getId());

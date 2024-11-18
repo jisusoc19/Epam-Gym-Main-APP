@@ -1,12 +1,11 @@
 package com.task3.Service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.task3.Entity.Trainee;
 import com.task3.Entity.Training_Type;
 import com.task3.Exception.RestHandlerException.ResouceNotFoundException;
 import com.task3.Repository.iTraining_TypeRepo;
@@ -15,14 +14,14 @@ import com.task3.service.trainingType.trainingTypeImplem;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class TrainingtypeServiTest {
 	
 	@Mock

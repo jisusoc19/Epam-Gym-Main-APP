@@ -10,6 +10,15 @@ spring:
 ---
 #configuracion developer
 spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    in-memory: false
+    pool:
+      enabled: true
+    packages:
+      trust-all: true
   config:
     activate:
       on-profile: dev
@@ -85,15 +94,7 @@ resilience4j:
           - java.io.IOException
           - java.util.concurrent.TimeoutException
 #ActiveMQconfig
-  activemq:
-    broker-url: tcp://localhost:61616
-    user: admin
-    password: admin
-    in-memory: false
-    pool:
-      enabled: true
-    packages:
-      trust-all: true
+
 
 
 ---

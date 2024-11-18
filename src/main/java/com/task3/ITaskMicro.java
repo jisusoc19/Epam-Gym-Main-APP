@@ -1,18 +1,16 @@
 package com.task3;
 
 import com.task3.Dto.TrainingDtoMicroServiceTaskMicro;
-import com.task3.Entity.Trainer;
-import com.task3.Entity.Training;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient("TaskMicro")
 public interface ITaskMicro {
-    @PostMapping("/trainer")
+    @PostMapping("/api/trainer")
     void addTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro);
 
-    @DeleteMapping("/trainer")
-    void deleteTrainer(Training training);
+    @PutMapping("/api/trainer")
+    void deleteTrainer(TrainingDtoMicroServiceTaskMicro trainingDtoMicro);
 
 }

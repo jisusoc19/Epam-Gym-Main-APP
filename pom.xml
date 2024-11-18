@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.task_3</groupId>
@@ -62,6 +62,7 @@
 		<dependency> 
     		<groupId>org.junit.jupiter</groupId>
     		<artifactId>junit-jupiter-api</artifactId>
+
    			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -131,6 +132,28 @@
 		<artifactId>javax.jms-api</artifactId>
 		<version>2.0.1</version>
 	</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.14.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>7.14.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>7.14.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
 
 	</dependencies>
 

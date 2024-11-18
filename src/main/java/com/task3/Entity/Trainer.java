@@ -1,16 +1,10 @@
 package com.task3.Entity;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,10 +39,7 @@ public class Trainer implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	public Trainer (User userid) {
-		this.userid=userid;
-		
-	}
+
 
 
 

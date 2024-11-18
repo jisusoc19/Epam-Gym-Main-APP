@@ -1,34 +1,31 @@
 package com.task3.Service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.task3.Dto.TrainingDtoMicroServiceTaskMicro;
+
+import org.junit.Test;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
 
 import com.task3.Entity.Training;
 import com.task3.Repository.iTrainingdao;
 import com.task3.service.training.iTrainingServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+
 
 import java.util.Optional;
 
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
-
-
-
-
-
-
-
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class trainingServiceTest {
 	
 	
@@ -64,7 +61,7 @@ public class trainingServiceTest {
 		assertNull(training1encontrado3);
 	}
 	@Test 
-	void guardarEntityTest() {
+	public void guardarEntityTest() {
         Long id = 1L;
         Long id2 = 2L;
         Training training = new Training((long) 1,null,null,"jesus",null, null,null); // Completar con parámetros adecuados
@@ -72,21 +69,21 @@ public class trainingServiceTest {
     	when(trainingrepo.findById(id)).thenReturn(Optional.of(training));
 
         // Ejecución
-        Training savedTraining = trainingService.save(training, id);
+        TrainingDtoMicroServiceTaskMicro savedTraining = trainingService.save(training);
 
         // Verificación
         assertNotNull(savedTraining);
        
 	}
 	@Test 
-	void guardarEntityTestnull() {
+	public void guardarEntityTestnull() {
         Long id2 = null;
         Training training = new Training((long) 1,null,null,"jesus",null, null,null); 
         Training training1= null;
     	when(trainingrepo.existsById(id2)).thenReturn(false);
     	when(trainingrepo.findById(id2)).thenReturn(Optional.of(training));
 		
-    	Training savedTraining = trainingService.save(training1, id2);
+    	TrainingDtoMicroServiceTaskMicro savedTraining = trainingService.save(training1);
     	assertNull(savedTraining);
     	
 	}

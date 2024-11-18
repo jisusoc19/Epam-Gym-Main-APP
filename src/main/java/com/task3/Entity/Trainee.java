@@ -4,16 +4,11 @@ import java.io.Serializable;
 
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -50,8 +45,10 @@ public class Trainee implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "trainee_id")
 	Set<Training> traininglist;
-	
-	@PrePersist
+
+
+
+    @PrePersist
 	public void prePersist() {
 		dateBirth = new Date();
 	}
@@ -59,7 +56,7 @@ public class Trainee implements Serializable {
 	
 
 
-	public Trainee(String addres, User userid) {
+	public Trainee(long l, String addres, String mail, User userid, Object o, String jesus, String david, Object object, Object o1, boolean b) {
 		this.addres = addres;
 		this.userid = userid;
 	}

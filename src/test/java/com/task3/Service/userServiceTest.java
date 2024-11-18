@@ -1,23 +1,26 @@
 package com.task3.Service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+
 import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.task3.Entity.Trainer;
+
 import com.task3.Entity.User;
 import com.task3.Repository.iUserRepository;
 import com.task3.service.user.iUserServiceImpl;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class userServiceTest {
 	@Mock
 	private iUserRepository userrepo;
@@ -55,7 +58,7 @@ public class userServiceTest {
         String password = userservice.generatePasword();
 
         
-        assertEquals(10, password.length(), "La contraseña generada debe tener 10 caracteres de longitud.");
+        assertEquals(String.valueOf(10), password.length(), "La contraseña generada debe tener 10 caracteres de longitud.");
     }
 
     @Test
