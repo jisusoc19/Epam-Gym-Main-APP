@@ -11,7 +11,7 @@ spring:
 #configuracion developer
 spring:
   activemq:
-    broker-url: tcp://localhost:61616
+    broker-url: tcp://activemq:61616
     user: admin
     password: admin
     in-memory: false
@@ -73,7 +73,7 @@ eureka:
     preferIPAddress: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
     register-with-eureka: true
     fetch-registry: true
 #circuit Breaker

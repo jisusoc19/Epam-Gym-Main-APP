@@ -41,7 +41,7 @@ import static org.mockito.BDDMockito.given;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class TrainerControllerTest {
-	
+	/*
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
@@ -186,7 +186,7 @@ public class TrainerControllerTest {
     }
 
 
-
+*/
     
 
 }

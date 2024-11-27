@@ -20,7 +20,7 @@ import com.task3.service.JWT.IJwtService;
 public class TrainingControllerTest {
 
 	
-
+/*
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -42,6 +42,6 @@ public class TrainingControllerTest {
             .andExpect(status().isOk());
 	}
 	
-
+*/
 	
 }

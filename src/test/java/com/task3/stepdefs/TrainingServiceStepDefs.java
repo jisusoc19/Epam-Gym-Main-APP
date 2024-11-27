@@ -94,9 +94,6 @@ public class TrainingServiceStepDefs {
             trainingService.save(training);
         });
     }
-
-
-
     @Then("training doesn't save and throws an error")
     public void training_doesnt_save_and_throws_an_error() {
         assertNotNull(expectedException);
