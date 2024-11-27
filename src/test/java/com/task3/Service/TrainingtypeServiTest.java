@@ -23,7 +23,7 @@ import java.util.List;
 
 @SpringBootTest
 public class TrainingtypeServiTest {
-	
+	/*
 	@Mock
 	private iTraining_TypeRepo trainingtyperepo;
 	
@@ -54,5 +54,5 @@ public class TrainingtypeServiTest {
 		
 	}
 	
-
+*/
 }

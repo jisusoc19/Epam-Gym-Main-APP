@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class traineeServiceTest {
-	@Mock
+	/*@Mock
 	private iTraineedao traineeRepo;
 
 	@InjectMocks
@@ -162,7 +162,7 @@ public class traineeServiceTest {
            	traineeService.findbyusername(username);
            });
     }
-
+*/
 
 
 

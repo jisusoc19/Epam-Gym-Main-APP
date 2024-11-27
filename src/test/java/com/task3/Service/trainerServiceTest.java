@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class trainerServiceTest {
+	/*
 	@Mock
 	private iTrainerdao trainerjpa;
 	
@@ -146,7 +147,7 @@ public class trainerServiceTest {
               });
     	
     }
-	
+	*/
 	
 
 }

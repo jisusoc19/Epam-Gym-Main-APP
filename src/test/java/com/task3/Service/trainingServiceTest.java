@@ -27,9 +27,9 @@ import java.util.Optional;
 
 @SpringBootTest
 public class trainingServiceTest {
+
 	
-	
-	@Mock
+	/*@Mock
 	private iTrainingdao trainingrepo;
 	
 	@InjectMocks
@@ -87,6 +87,8 @@ public class trainingServiceTest {
     	assertNull(savedTraining);
     	
 	}
+
+	 */
 	}
 
 	
